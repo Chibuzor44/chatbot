@@ -34,7 +34,8 @@ document_search = PineconeVectorStore(
     embedding=embeddingModel
 )
 
-retriever = document_search.as_retriever()
+retriever = document_search.as_retriever(search_kwargs={"k":5})
+
 prompt = ChatPromptTemplate.from_messages(
     [
         ("system", system_prompt),
@@ -44,7 +45,7 @@ prompt = ChatPromptTemplate.from_messages(
 
 question_answer_chain = (
     {
-        "question": itemgetter("question") | retriever
+        "question": itemgetter("question") | retriever.invoke(itemgetter("question"))
     }
     | prompt 
     | model
