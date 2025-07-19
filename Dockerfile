@@ -2,7 +2,7 @@ FROM python:3.10-bookworm
 
 WORKDIR /app
 
-COPY ./app
+COPY . /app
 
 RUN uv sync
 
