@@ -36,20 +36,20 @@ document_search = PineconeVectorStore(
 
 retriever = document_search.as_retriever(search_kwargs={"k":5})
 
-prompt = ChatPromptTemplate.from_messages(
+prompt_template = ChatPromptTemplate.from_messages(
     [
         ("system", system_prompt),
         ("human", "{question}"),
     ]
 )
 
-question_answer_chain = (
-    {
-        "question": itemgetter("question") | retriever.invoke(itemgetter("question"))
-    }
-    | prompt 
-    | model
-)
+# question_answer_chain = (
+#     {
+#         "question": itemgetter("question") | "context": retriever.invoke(itemgetter("question"))
+#     }
+#     | prompt 
+#     | model
+# )
 
 @app.route("/")
 def index():
@@ -60,10 +60,10 @@ def chat():
     msg = request.form["msg"]
     logger.info(f"Received message: {msg}")
     
-    input_variables = {"question": msg}
-    logger.info(f"Input variables: {input_variables}")
+    prompt = prompt_template.invoke({"question": msg, "context": retriever.invoke(msg)})
+    logger.info(f"Input variables: {prompt}")
     
-    response = question_answer_chain.invoke(input_variables)
+    response = model.invoke(prompt)
     logger.info(f"Response: {response}")
     response_split = response.strip().split('\n')
     for line in response_split:
