@@ -54,7 +54,7 @@ question_answer_chain = (
 def index():
     return render_template("chat.html")
 
-@app.route("/get", methods=["GETT", "POST"])
+@app.route("/get", methods=["GET", "POST"])
 def chat():
     msg = request.form["msg"]
     logger.info(f"Received message: {msg}")
