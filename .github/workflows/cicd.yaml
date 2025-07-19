@@ -53,6 +53,17 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      - name: Stop existing container on port 8080
+        run: |
+          CONTAINER_ID=$(docker ps -q --filter "publish=8080")
+          if [ -n "$CONTAINER_ID" ]; then
+            echo "Stopping container $CONTAINER_ID"
+            docker stop "$CONTAINER_ID"
+            docker rm "$CONTAINER_ID"
+          else
+            echo "No container running on port 8080"
+          fi
+
       - name: Run Dockeer Image to serve
         run: |
           docker run -d -e AWS_ACCESS_KEY_ID="${{ secrets.AWS_ACCESS_KEY_ID }}" \
