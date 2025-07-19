@@ -12,3 +12,4 @@ wheels/
 # file-specific
 .env
 *accessKey*
+*.pem
