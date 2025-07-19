@@ -1,0 +1,13 @@
+dotenv>=0.9.9
+flask>=3.1.1
+googleapis-common-protos>=1.70.0
+grpcio>=1.73.0
+langchain>=0.3.25
+langchain-community>=0.3.25
+langchain-core>=0.3.65
+langchain-huggingface>=0.3.0
+langchain-pinecone>=0.2.8
+pinecone>=7.1.0
+protobuf==5.29.0
+pypdf>=5.6.0
+sentence-transformers>=4.1.0
