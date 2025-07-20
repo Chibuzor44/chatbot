@@ -48,15 +48,15 @@ prompt = ChatPromptTemplate.from_messages(
     ]
 )
 
-question_answer_chain = (
-    {
-        "context": itemgetter("context"), 
-        "question": itemgetter("question")
-    }
-    | prompt 
-    | model
-    | StrOutputParser()
-)
+# question_answer_chain = (
+#     {
+#         "context": itemgetter("context"), 
+#         "question": itemgetter("question")
+#     }
+#     | prompt 
+#     | model
+#     | StrOutputParser()
+# )
 
 question_answer_chain = (
     {
